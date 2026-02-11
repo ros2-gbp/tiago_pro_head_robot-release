@@ -209,4 +209,12 @@
     <parent link="sellion_link"/>
   </joint>
 
+  <link name="head_front_camera_color_eye_frame"/>
+
+  <joint name="color_eye_joint" type="fixed">
+    <origin xyz="0.000 0.000 0.000" rpy="-1.571 0.000 -1.571"/>
+    <child link="head_front_camera_color_eye_frame" />
+    <parent link="head_front_camera_link"/>
+  </joint>
+
 </robot>
