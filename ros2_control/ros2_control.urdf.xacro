@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- 
+<!--
   Copyright (c) 2024 PAL Robotics S.L. All rights reserved.
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,31 +15,50 @@
   limitations under the License.
  -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="tiago_pro_head" >
-    <xacro:macro name="tiago_pro_head_ros2_control" params="use_sim_time:=^|false">
+
+  <xacro:macro name="tiago_pro_head_ros2_control" params="use_sim_time:=^|false sim_type:=^|gazebo">
+
     <xacro:include filename="$(find tiago_pro_head_description)/urdf/head.ros2_control.xacro" />
 
-    <xacro:unless value="$(arg use_sim_time)">
-      <ros2_control name="ros2_control_tiago_pro_head_system" type="system">
+    <ros2_control name="ros2_control_tiago_pro_head_system" type="system">
         <hardware>
-          <plugin>robot_control/RobotControl</plugin>
+          <xacro:if value="${use_sim_time}">
+            <xacro:if value="${sim_type == 'gazebo'}">
+              <xacro:if value="${gazebo_version == 'classic'}">
+                <plugin>gazebo_ros2_control/GazeboSystem</plugin>
+              </xacro:if>
+              <xacro:if value="${gazebo_version == 'gazebo'}">
+                <plugin>gz_ros2_control/GazeboSimSystem</plugin>
+              </xacro:if>
+            </xacro:if>
+            <xacro:if value="${sim_type == 'mujoco-ros2-control'}">
+              <plugin>mujoco_ros2_control/MujocoSystemInterface</plugin>
+              <!-- Override the slowdown settings in the Simulate App and run at 3x speed -->
+              <param name="sim_speed_factor">1.0</param>
+            </xacro:if>
+          </xacro:if>
+          <xacro:unless value="${use_sim_time}">
+            <plugin>robot_control/RobotControl</plugin>
+          </xacro:unless>
         </hardware>
-        <xacro:ros2_control_head />
-      </ros2_control>
-    </xacro:unless>
+        <xacro:ros2_control_head sim_type="${sim_type}"/>
+    </ros2_control>
 
-    <xacro:if value="$(arg use_sim_time)">
-      <gazebo>
-        <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
-          <parameters>$(find tiago_pro_head_description)/ros2_control/gazebo_controller_manager_cfg.yaml</parameters>
-        </plugin>
-      </gazebo>
-      <ros2_control name="ros2_control_head_gazebo_system" type="system">
-        <hardware>
-          <plugin>gazebo_ros2_control/GazeboSystem</plugin>
-        </hardware>
-        <xacro:ros2_control_head />
-      </ros2_control>
+    <xacro:if value="${use_sim_time}">
+      <xacro:if value="${sim_type == 'gazebo'}">
+        <xacro:if value="${gazebo_version == 'classic'}">
+          <plugin filename="libgazebo_ros2_control.so" name="gazebo_ros2_control">
+            <parameters>$(find tiago_pro_head_description)/ros2_control/gazebo_controller_manager_cfg.yaml</parameters>
+          </plugin>
+        </xacro:if>
+        <xacro:if value="${gazebo_version == 'gazebo'}">
+          <plugin filename="gz_ros2_control-system" name="gz_ros2_control::GazeboSimROS2ControlPlugin">
+            <robot_param>robot_description</robot_param>
+            <robot_param_node>robot_state_publisher</robot_param_node>
+            <parameters>$(find tiago_pro_head_description)/ros2_control/gazebo_controller_manager_cfg.yaml</parameters>
+          </plugin>
+        </xacro:if>
+      </xacro:if>
     </xacro:if>
-
   </xacro:macro>
 </robot>
