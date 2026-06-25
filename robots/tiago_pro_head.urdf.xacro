@@ -5,7 +5,7 @@
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
       http://www.apache.org/licenses/LICENSE-2.0
 
   Unless required by applicable law or agreed to in writing, software
@@ -18,21 +18,45 @@
 <robot xmlns:xacro="http://ros.org/wiki/xacro" name="tiago_pro_head">
   <xacro:include filename="$(find tiago_pro_head_description)/urdf/head.urdf.xacro" />
 
-  <xacro:arg name="camera_model" default="realsense-d435"/>
+  <xacro:arg name="camera_model" default="realsense-d435i"/>
   <xacro:arg name="use_sim_time" default="false"/>
   <xacro:arg name="is_public_sim" default="false"/>
   <xacro:arg name="namespace" default=""/>
   <xacro:arg name="gazebo_version" default="classic"/>
 
+  <!-- mujoco-ros2-control, mujoco, gazebo-->
+  <xacro:arg name="sim_type" default="gazebo" />
+  <!-- false, position, motor -->
+  <xacro:arg name="mj_control" default="false" />
+  <!-- floor -->
+  <xacro:arg name="world_name" default="floor" />
+
   <xacro:property name="camera_model" value="$(arg camera_model)" />
   <xacro:property name="use_sim_time" value="$(arg use_sim_time)" />
   <xacro:property name="is_public_sim" value="$(arg is_public_sim)" />
   <xacro:property name="namespace" value="$(arg namespace)" />
+
+  <!-- Mujoco properties -->
+  <xacro:property name="sim_type" value="$(arg sim_type)" />
+  <xacro:property name="mj_control" value="$(arg mj_control)"/>
+  <xacro:property name="world_name" value="$(arg world_name)"/>
+
   <xacro:property name="gazebo_version" value="$(arg gazebo_version)" />
 
-    <!-- ROS 2 Control -->
-  <xacro:include filename="$(find tiago_pro_head_description)/ros2_control/ros2_control.urdf.xacro" />
-  <xacro:tiago_pro_head_ros2_control/>
+  <!-- Properties check -->
+  <xacro:if value="${sim_type not in ['mujoco-ros2-control', 'mujoco', 'gazebo']}">
+    <xacro:wrong_sim_type />
+  </xacro:if>
+  <xacro:unless value="$(arg use_sim_time)">
+    <xacro:property name="sim_type" value="gazebo" />
+  </xacro:unless>
+
+
+  <!-- ROS 2 Control -->
+  <xacro:if value="${sim_type != 'mujoco'}">
+    <xacro:include filename="$(find tiago_pro_head_description)/ros2_control/ros2_control.urdf.xacro" />
+    <xacro:tiago_pro_head_ros2_control use_sim_time="${use_sim_time}" sim_type="${sim_type}"/>
+  </xacro:if>
 
   <link name="world"/>
 
@@ -78,4 +102,7 @@
 
   <xacro:tiago_pro_head name="head" parent="head_base_link" use_sim_time="$(arg use_sim_time)" camera_model="$(arg camera_model)"/>
 
+  <xacro:if value="${sim_type in ['mujoco', 'mujoco-ros2-control']}">
+    <xacro:tiago_pro_head_mj world_name="${world_name}" mj_control="${mj_control}"/>
+  </xacro:if>
 </robot>
