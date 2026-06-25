@@ -30,6 +30,9 @@ class LaunchArguments(LaunchArgumentsBase):
     use_sim_time: DeclareLaunchArgument = CommonArgs.use_sim_time
     namespace: DeclareLaunchArgument = CommonArgs.namespace
     is_public_sim: DeclareLaunchArgument = CommonArgs.is_public_sim
+    sim_type: DeclareLaunchArgument = CommonArgs.sim_type
+    mj_control: DeclareLaunchArgument = CommonArgs.mj_control
+    world_name: DeclareLaunchArgument = CommonArgs.world_name
 
 
 def declare_actions(launch_description: LaunchDescription, launch_args: LaunchArguments):
@@ -55,7 +58,10 @@ def declare_actions(launch_description: LaunchDescription, launch_args: LaunchAr
         launch_arguments={"camera_model": launch_args.camera_model,
                           "namespace": launch_args.namespace,
                           "use_sim_time": launch_args.use_sim_time,
-                          "is_public_sim": launch_args.is_public_sim
+                          "is_public_sim": launch_args.is_public_sim,
+                          "sim_type": launch_args.sim_type,
+                          "mj_control": launch_args.mj_control,
+                          "world_name": launch_args.world_name,
                           })
 
     launch_description.add_action(robot_state_publisher)

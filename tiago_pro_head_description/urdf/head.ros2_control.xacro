@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<!-- 
+<!--
   Copyright (c) 2024 PAL Robotics S.L. All rights reserved.
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +16,12 @@
  -->
 <robot xmlns:xacro="http://ros.org/wiki/xacro">
   <!-- ROS 2 Control -->
-  <xacro:macro name="ros2_control_head" >
-    <xacro:ros2_control_head_joint name="head_1" reduction="1.0" offset_value="0.0" />
-    <xacro:ros2_control_head_joint name="head_2" reduction="1.0" offset_value="0.0" />
+  <xacro:macro name="ros2_control_head" params="sim_type:=^|gazebo">
+    <xacro:ros2_control_head_joint name="head_1" reduction="1.0" offset_value="0.0" sim_type="${sim_type}" />
+    <xacro:ros2_control_head_joint name="head_2" reduction="1.0" offset_value="0.0" sim_type="${sim_type}"/>
   </xacro:macro>
 
-  <xacro:macro name="ros2_control_head_joint" params="name reduction offset_value" >
+  <xacro:macro name="ros2_control_head_joint" params="name reduction offset_value sim_type:=^|gazebo" >
     <joint name="${name}_joint">
       <command_interface name="position" />
 
@@ -31,7 +31,7 @@
     </joint>
 
     <xacro:include filename="$(find tiago_pro_head_description)/urdf/head.transmission.urdf.xacro" />
-    <xacro:head_transmission name="${name}" reduction="1" offset_value="${offset_value}" />
+    <xacro:head_transmission name="${name}" reduction="1" offset_value="${offset_value}" sim_type="${sim_type}"/>
 
   </xacro:macro>
 </robot>
