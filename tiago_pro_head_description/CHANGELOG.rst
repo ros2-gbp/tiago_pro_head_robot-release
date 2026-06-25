@@ -2,6 +2,44 @@
 Changelog for package tiago_pro_head_description
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
+1.12.0 (2026-06-04)
+-------------------
+* comment camera for head ros2 control mj simulation
+* fix argument
+* add check for the values of the sim_type argument
+* add missing sim_type parameter
+* use value in defined in property for effort in mj
+* set mj_ros2_control tag dependent on the sim_type
+* add the mujoco default tag
+* fix the parameter name to world_name and not world
+* add transmission also in mujoco simulation
+* create a xacro file with joint properties
+* pass sim_type argument as xacro parameter
+* move mj_tags to the head.urdf.xacro
+* added mujoco ros2 control
+* added mujoco description
+* added mujoco args
+* Contributors: Ortisa Poci
+
+1.11.0 (2026-05-20)
+-------------------
+* added d435i option
+* Contributors: martinaannicelli
+
+1.10.1 (2026-05-20)
+-------------------
+* Update head.urdf.xacro
+* Added urdf parent also for camera d435i
+* Contributors: ileniaperrella, martinaannicelli
+
+1.10.0 (2026-04-13)
+-------------------
+* Add gazebo ignition for TIAGo Pro Head
+* Contributors: thomas.peyrucain
+
+1.9.1 (2026-04-10)
+------------------
+
 1.9.0 (2025-12-15)
 ------------------
 * Unifying frames
