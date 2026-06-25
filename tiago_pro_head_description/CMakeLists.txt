@@ -22,4 +22,4 @@ if(BUILD_TESTING)
 endif()
 ament_python_install_package(${PROJECT_NAME})
 
-ament_auto_package(INSTALL_TO_SHARE launch robots meshes urdf ros2_control config)
+ament_auto_package(INSTALL_TO_SHARE launch robots mujoco meshes urdf ros2_control config)
