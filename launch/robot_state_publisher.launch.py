@@ -36,6 +36,9 @@ class LaunchArguments(LaunchArgumentsBase):
     namespace: DeclareLaunchArgument = CommonArgs.namespace
     is_public_sim: DeclareLaunchArgument = CommonArgs.is_public_sim
     camera_model: DeclareLaunchArgument = TiagoProHeadArgs.camera_model
+    sim_type: DeclareLaunchArgument = CommonArgs.sim_type
+    mj_control: DeclareLaunchArgument = CommonArgs.mj_control
+    world_name: DeclareLaunchArgument = CommonArgs.world_name
 
 
 def declare_actions(launch_description: LaunchDescription, launch_args: LaunchArguments):
@@ -64,7 +67,10 @@ def create_robot_description_param(context, *args, **kwargs):
         'use_sim_time': read_launch_argument('use_sim_time', context),
         'namespace': read_launch_argument('namespace', context),
         'is_public_sim': read_launch_argument('is_public_sim', context),
-        'camera_model': read_launch_argument('camera_model', context)
+        'camera_model': read_launch_argument('camera_model', context),
+        'sim_type': read_launch_argument('sim_type', context),
+        'mj_control': read_launch_argument('mj_control', context),
+        'world_name': read_launch_argument('world_name', context),
     }
     robot_description = load_xacro(xacro_file_path, xacro_input_args)
 
