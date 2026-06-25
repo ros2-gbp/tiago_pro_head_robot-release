@@ -1,3 +1,30 @@
+## tiago_pro_head_robot (humble) - 1.12.0-1
+
+The packages in the `tiago_pro_head_robot` repository were released into the `humble` distro by running `/usr/bin/bloom-release --track humble --rosdistro humble -y tiago_pro_head_robot` on `Thu, 25 Jun 2026 08:36:29 -0000`
+
+These packages were released:
+- `tiago_pro_head_bringup`
+- `tiago_pro_head_controller_configuration`
+- `tiago_pro_head_description`
+- `tiago_pro_head_robot`
+
+Version of package(s) in repository `tiago_pro_head_robot`:
+
+- upstream repository: https://github.com/pal-robotics/tiago_pro_head_robot.git
+- release repository: https://github.com/ros2-gbp/tiago_pro_head_robot-release.git
+- rosdistro version: `1.9.0-1`
+- old version: `1.9.0-1`
+- new version: `1.12.0-1`
+
+Versions of tools used:
+
+- bloom version: `0.14.3`
+- catkin_pkg version: `1.1.0`
+- rosdep version: `0.26.0`
+- rosdistro version: `1.0.1`
+- vcstools version: `0.1.42`
+
+
 ## tiago_pro_head_robot (humble) - 1.9.0-1
 
 The packages in the `tiago_pro_head_robot` repository were released into the `humble` distro by running `/usr/bin/bloom-release --track humble --rosdistro humble tiago_pro_head_robot -y` on `Wed, 11 Feb 2026 09:05:40 -0000`
